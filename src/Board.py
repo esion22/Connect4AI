@@ -21,10 +21,10 @@ class Board():
         string += "\n"
         return string
     
-    def play (self, col: int, which: int) -> None:
+    def play (self, col: int, which: int) -> int:
         if (self.grid[col] != Disk.EMPTY):
             print("Unable to play here!")
-            return
+            return 3
 
         i: int = 0
         while (self.grid[i*7 + col] == Disk.EMPTY and i != 6):
@@ -45,6 +45,7 @@ class Board():
         elif (winner == 1):
             print(self)
             print("The Machine has overcome humans...")
+        return winner
 
         
 
@@ -85,7 +86,3 @@ class Board():
                             elif value == Disk.YELLOW:
                                 return 1
         return 2
-                    
-
-board = Board()
-print(board)
