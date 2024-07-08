@@ -6,12 +6,12 @@ class Board():
 
     def __init__(self) -> None:
         self.grid = []
-        for i in range(49):
+        for i in range(42):
             self.grid.append(Disk.EMPTY)
     
     def __str__(self) -> str:
         string: str = "\n";
-        for i in range(7):
+        for i in range(6):
             for j in range (7):
                 string += "|"
                 string += str(self.grid[i*7 + j])
@@ -27,7 +27,7 @@ class Board():
             return 3
 
         i: int = 0
-        while (self.grid[i*7 + col] == Disk.EMPTY and i != 6):
+        while (self.grid[i*7 + col] == Disk.EMPTY and i != 5):
             i += 1
         
         if (self.grid[i*7 + col] != Disk.EMPTY):
@@ -52,7 +52,7 @@ class Board():
     def isWinner(self) -> int:
         # the result is 0 if the human wins, 1 if the AI wins, 2 if nobody wins
         value: Disk = None
-        for i in range(7):
+        for i in range(6):
             # only check up, right, up-right, up-left
             for j in range(7):
                 value = self.grid[i*7 + j]
