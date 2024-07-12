@@ -1,9 +1,9 @@
 from enum import Enum, auto
 
 class Disk(Enum):
-    YELLOW = auto()
-    RED = auto()
-    EMPTY = auto()
+    YELLOW = 1
+    RED = 0
+    EMPTY = -1
 
     def __str__(self) -> str:
         if (self == Disk.EMPTY):

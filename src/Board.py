@@ -1,4 +1,5 @@
 from Disks import *
+import ctypes
 
 # human is Red (0) AI is Yellow (1)
 
