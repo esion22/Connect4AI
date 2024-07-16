@@ -419,13 +419,13 @@ void destroyTree(struct minMaxNode** root) {
     }
 }
 
-void destroyList (struct visitedState* head) {
-    struct visitedState* curr = head->next;
+void destroyList (struct visitedState** head) {
+    struct visitedState* curr = (*head)->next;
 
-    free(head);
+    free(*head);
 
     if (curr!=NULL) {
-        destroyList(curr);
+        destroyList(&curr);
     }
 }
 
@@ -499,12 +499,13 @@ float min (float num1, float num2) {
     }
 }
 
-float minmax (struct minMaxNode** node, int depth, int maximizing_player, int* total) {
+float minmax (struct minMaxNode** node, int depth, int maximizing_player, int* total, struct visitedState** closedList) {
     int is_tie = 0; //0 if leaf, 1 if not
     int value;
     int i = 0;
     int j = 0;
     struct minMaxNode* child = NULL;
+    struct visitedState* curr = (*closedList);
 
     if (depth == 0 || is_win((*node)->state) != 0) {
         (*node)->evaluation = evaluation((*node)->state, (*node)->depth);
@@ -524,15 +525,36 @@ float minmax (struct minMaxNode** node, int depth, int maximizing_player, int* t
                     child->parent = (*node);
                     child->state = result((*node)->state, i, maximizing_player);
                     if (child->state != NULL) {
-
-                        for (j = 0; j<7; j++) {
-                            child->children[j] = NULL;
+                        /*int not_equal = 0; //0 if equal, 1 if not equal
+                        while (curr->next != NULL) {
+                            for (j = 0; j<42; j++) {
+                                printf("i: %d\n", i);
+                                if (curr->state[i] != child->state[i]) {
+                                    not_equal = 1;
+                                    break;
+                                }
+                            }
+                            curr = curr->next;
                         }
-                        (*total)++;
-                        //printf("child #%d\n", (*total));
-                        (*node)->children[i] = child;
+                        if (not_equal == 0) {
+                            //printf("present in cl\n");
+                            struct visitedState* newState = malloc(sizeof(struct visitedState));
+                            newState->next = NULL;
+                            newState->state = child->state;
+                            curr->next = newState;
 
-                        value = max(value, minmax(&child, depth - 1,  child->MaxOrMin, total));
+                            free(child);
+                            value = INT_MIN;
+                        } else {*/
+                            for (j = 0; j<7; j++) {
+                                child->children[j] = NULL;
+                            }
+                            (*total)++;
+                            //printf("child #%d\n", (*total));
+                            (*node)->children[i] = child;
+
+                            value = max(value, minmax(&child, depth - 1,  child->MaxOrMin, total, closedList));
+                        //}
                     }
                 } else {
                     value = 0;
@@ -552,14 +574,36 @@ float minmax (struct minMaxNode** node, int depth, int maximizing_player, int* t
                     child->state = result((*node)->state, i, maximizing_player);
 
                     if (child->state != NULL) {
-                        for (j = 0; j<7; j++) {
-                            child->children[j] = NULL;
+                        /*int not_equal = 0; //0 if equal, 1 if not equal
+                        while (curr->next != NULL) {
+                            for (j = 0; j<42; j++) {
+                                printf("i: %d\n", i);
+                                if (curr->state[i] != child->state[i]) {
+                                    not_equal = 1;
+                                    break;
+                                }
+                            }
+                            curr = curr->next;
                         }
+                        if (not_equal == 0) {
+                            //printf("present in cl\n");
+                            struct visitedState* newState = malloc(sizeof(struct visitedState));
+                            newState->next = NULL;
+                            newState->state = child->state;
+                            curr->next = newState;
 
-                        (*node)->children[i] = child;
-                        (*total)++;
-                        //printf("child #%d\n", (*total));
-                        value = min(value, minmax(&child, depth - 1,  child->MaxOrMin, total));
+                            free(child);
+                            value = INT_MAX;
+                        } else {*/
+                            for (j = 0; j<7; j++) {
+                                child->children[j] = NULL;
+                            }
+
+                            (*node)->children[i] = child;
+                            (*total)++;
+                            //printf("child #%d\n", (*total));
+                            value = min(value, minmax(&child, depth - 1,  child->MaxOrMin, total, closedList));
+                        //}
                     }
                 } else {
                     value = 0;
@@ -579,22 +623,34 @@ int getPlay (int* state) {
     int total = 0;
     float best_value = INT_MIN;
     struct minMaxNode* root = malloc(sizeof(struct minMaxNode));
+    struct visitedState* head = malloc(sizeof(struct visitedState));
     root->depth = 0;
     root->MaxOrMin = 1; //max
     root->parent = NULL;
     root->state = state;
     root->evaluation = evaluation(root->state, 0);
+
+    head->next = NULL;
+    head->state = head->state;
     
     for (i = 0; i<7; i++) {
         root->children[i] = NULL;
     }
-    best_value = minmax(&root, 7, root->MaxOrMin, &total);
+    best_value = minmax(&root, 7, root->MaxOrMin, &total, &head);
 
     
     for (i = 0; i<7; i++) {
         if (root->children[i]!=NULL) {
             if (root->children[i]->evaluation == best_value) {
                 destroyTree(&root);
+                int count = 0;
+                struct visitedState* curr = head;
+                while (curr!=NULL) {
+                    count++;
+                    curr = curr->next;
+                }
+                //printf("list long %d nodes\n", count);
+                destroyList(&head);
                 return i;
             }
         }

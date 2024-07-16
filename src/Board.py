@@ -62,28 +62,60 @@ class Board():
                         #check up
                         if (self.grid[(i-1)*7 + j] == value and self.grid[(i-2)*7 + j] == value and self.grid[(i-3)*7 + j] == value):
                             if value == Disk.RED:
+                                self.grid[i*7 + j] = Disk.WINRED
+                                self.grid[(i-1)*7 + j] = Disk.WINRED
+                                self.grid[(i-2)*7 + j] = Disk.WINRED
+                                self.grid[(i-3)*7 + j] = Disk.WINRED
                                 return 0
                             elif value == Disk.YELLOW:
+                                self.grid[i*7 + j] = Disk.WINYELLOW
+                                self.grid[(i-1)*7 + j] = Disk.WINYELLOW
+                                self.grid[(i-2)*7 + j] = Disk.WINYELLOW
+                                self.grid[(i-3)*7 + j] = Disk.WINYELLOW
                                 return 1
                     if j<=3:
                         #check right
                         if (self.grid[i*7 + j + 1] == value and self.grid[i*7 + j + 2] == value and self.grid[i*7 + j + 3] == value):
                             if value == Disk.RED:
+                                self.grid[i*7 + j] = Disk.WINRED
+                                self.grid[i*7 + j + 1] = Disk.WINRED
+                                self.grid[i*7 + j + 2] = Disk.WINRED
+                                self.grid[i*7 + j + 3] = Disk.WINRED
                                 return 0
                             elif value == Disk.YELLOW:
+                                self.grid[i*7 + j] = Disk.WINYELLOW
+                                self.grid[i*7 + j + 1] = Disk.WINYELLOW
+                                self.grid[i*7 + j + 2] = Disk.WINYELLOW
+                                self.grid[i*7 + j + 3] = Disk.WINYELLOW
                                 return 1
                     if i>=3 and j<=3:
                         #check up-right
                         if (self.grid[(i-1)*7 + j + 1] == value and self.grid[(i-2)*7 + j + 2] == value and self.grid[(i-3)*7 + j + 3] == value):
                             if value == Disk.RED:
+                                self.grid[i*7 + j] = Disk.WINRED
+                                self.grid[(i-1)*7 + j + 1] = Disk.WINRED
+                                self.grid[(i-2)*7 + j + 2] = Disk.WINRED
+                                self.grid[(i-3)*7 + j + 3] = Disk.WINRED
                                 return 0
                             elif value == Disk.YELLOW:
+                                self.grid[i*7 + j] = Disk.WINYELLOW
+                                self.grid[(i-1)*7 + j + 1] = Disk.WINYELLOW
+                                self.grid[(i-2)*7 + j + 2] = Disk.WINYELLOW
+                                self.grid[(i-3)*7 + j + 3] = Disk.WINYELLOW
                                 return 1
                     if i>=3 and j>=3:
                         #check up-left
                         if (self.grid[(i-1)*7 + j - 1] == value and self.grid[(i-2)*7 + j - 2] == value and self.grid[(i-3)*7 + j - 3] == value):
                             if value == Disk.RED:
+                                self.grid[i*7 + j] = Disk.WINRED
+                                self.grid[(i-1)*7 + j - 1] = Disk.WINRED
+                                self.grid[(i-2)*7 + j - 2] = Disk.WINRED
+                                self.grid[(i-3)*7 + j - 3] = Disk.WINRED
                                 return 0
                             elif value == Disk.YELLOW:
+                                self.grid[i*7 + j] = Disk.WINYELLOW
+                                self.grid[(i-1)*7 + j - 1] = Disk.WINYELLOW
+                                self.grid[(i-2)*7 + j - 2] = Disk.WINYELLOW
+                                self.grid[(i-3)*7 + j - 3] = Disk.WINYELLOW
                                 return 1
         return 2

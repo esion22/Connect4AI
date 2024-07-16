@@ -26,7 +26,7 @@ def playHuman (board: Board) -> int:
                 col = int(col)
                 correctInput = True
         res = board.play(col-1, 0)
-    
+    print("\033c")
     print(board)
     return res
 
@@ -64,6 +64,7 @@ if __name__ == "__main__":
     
     while (endGame == 2):
         if playing == 0:
+            print("AI is playing....")
             endGame = playAI(board)
             playing = 1
         else:
