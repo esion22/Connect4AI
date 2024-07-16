@@ -534,6 +534,8 @@ float minmax (struct minMaxNode** node, int depth, int maximizing_player, int* t
 
                         value = max(value, minmax(&child, depth - 1,  child->MaxOrMin, total));
                     }
+                } else {
+                    value = 0;
                 }
             }
             (*node)->evaluation = value;
@@ -559,6 +561,8 @@ float minmax (struct minMaxNode** node, int depth, int maximizing_player, int* t
                         //printf("child #%d\n", (*total));
                         value = min(value, minmax(&child, depth - 1,  child->MaxOrMin, total));
                     }
+                } else {
+                    value = 0;
                 }
             }
             (*node)->evaluation = value;
@@ -588,7 +592,7 @@ int getPlay (int* state) {
 
     
     for (i = 0; i<7; i++) {
-        if (root->children!=NULL) {
+        if (root->children[i]!=NULL) {
             if (root->children[i]->evaluation == best_value) {
                 destroyTree(&root);
                 return i;
