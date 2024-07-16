@@ -14,9 +14,9 @@ class Board():
         string: str = "\n";
         for i in range(6):
             for j in range (7):
-                string += "|"
+                string += "\033[34m|\033[0m"
                 string += str(self.grid[i*7 + j])
-                string += "|"
+                string += "\033[34m|\033[0m"
             string += "\n"
         string += " 1  2  3  4  5  6  7 \n"
         string += "\n"

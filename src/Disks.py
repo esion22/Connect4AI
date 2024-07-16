@@ -9,6 +9,6 @@ class Disk(Enum):
         if (self == Disk.EMPTY):
             return " "
         elif (self == Disk.YELLOW):
-            return "X"
+            return "\033[33mX\033[0m"
         elif (self == Disk.RED):
-            return "O"
+            return "\033[31mO\033[0m"

@@ -31,28 +31,11 @@ def playHuman (board: Board) -> int:
     return res
 
 def playAI (board: Board) -> int:
-    print("In which column do you want to play?\n1 - 7")
-    col = str(input())
-    res: int
-    if (col!="1" and col!="2" and col!="3" and col!="4" and col!="5" and col!="6" and col!="7"):
-        print("invalid input!")
-        res = 3
-    else:
-        col = int(col)  
-        res = board.play(col-1, 1)
-
-    correctInput: bool = False
-    while (res == 3):
-        correctInput = False
-        while not correctInput:
-            col = input("Choose another column: ")
-            if (col!="1" and col!="2" and col!="3" and col!="4" and col!="5" and col!="6" and col!="7"):
-                print("invalid input!")
-            else:
-                col = int(col)
-                correctInput = True
-        res = board.play(col-1, 1)
-    
+    cBoard = (ctypes.c_int * 42)()
+    for i in range(42):
+        cBoard[i] = board.grid[i].value
+    col: int = c.getPlay(cBoard)
+    res = board.play(col, 1)
     print(board)
     return res
 
@@ -64,12 +47,6 @@ if __name__ == "__main__":
     print("You play with the 'O' and the AI plays with the 'X'.\n")
 
     board = Board.Board()
-
-    cBoard = (ctypes.c_int * 42)()
-    for i in range(42):
-        cBoard[i] = board.grid[i].value
-
-    c.getBoard(cBoard)
 
     playing: int = random.randint(0, 1)
     endGame: int
