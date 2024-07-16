@@ -11,3 +11,13 @@ I've used Python along with the *[ctypes](https://docs.python.org/3/library/ctyp
 ## Algorithms used
 
 - ***[minimax algorithm](https://en.wikipedia.org/wiki/Minimax)***
+
+##  Usage
+In order to run the AI you need to have a Linux subsystem on your PC. Here are some useful websites for doing so:
+- [Windows](https://learn.microsoft.com/en-us/windows/wsl/install)
+
+You also need to have *[Python](https://wiki.python.org/moin/BeginnersGuide/Download)* installed on your machine.
+
+Then you have to download all the files and run the following command in the directory in which you've saved your files:
+```
+python3 gameLogic.py
