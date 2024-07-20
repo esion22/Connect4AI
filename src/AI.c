@@ -430,60 +430,6 @@ void destroyList (struct visitedState** head) {
     }
 }
 
-int checkNode (struct minMaxNode* root) {
-    int i = 0;
-    struct minMaxNode* chosen = NULL;
-    int is_leaf = 0; //0 if leaf, 1 if not
-    for (i = 0; i<7; i++) {
-        if (root->children[i]!=NULL) {
-            is_leaf = 1;
-            break;
-        }
-    }
-    if (is_leaf == 0) {
-        return root->evaluation;
-    }
-
-    if (root->MaxOrMin == 0) {
-        //min node
-        int minEv = INT_MAX;
-        for (i = 0; i<7; i++) {
-            if (root->children[i] != NULL) {
-                if (root->children[i]->evaluation == minEv) {
-                    if ((rand()%6) == 0) {
-                        printf("changing curr -> %d ev: %f\n", i, root->children[i]->evaluation);
-                        chosen = root->children[i];
-                        minEv = root->children[i]->evaluation;
-                    }
-                }
-                if (root->children[i]->evaluation < minEv) {
-                    printf("changing curr -> %d ev: %f\n", i, root->children[i]->evaluation);
-                    chosen = root->children[i];
-                    minEv = root->children[i]->evaluation;
-                }
-
-                return checkNode(chosen);
-            }
-            return 0;
-        }
-        
-    } else {
-        //max node
-        int maxEv = INT_MIN;
-        int result;
-        for (i = 0; i<7; i++) {
-            if (root->children[i]!=NULL) {
-                result = checkNode(root->children[i]);
-                if (result > maxEv) {
-                    maxEv = result;
-                }
-            }
-        }
-        return maxEv;
-    }
-
-}
-
 float max (float num1, float num2) {
     if (num1>=num2) {
         return num1;
