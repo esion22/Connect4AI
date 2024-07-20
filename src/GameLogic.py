@@ -35,6 +35,7 @@ def playAI (board: Board) -> int:
     for i in range(42):
         cBoard[i] = board.grid[i].value
     col: int = c.getPlay(cBoard)
+    print(col);
     res = board.play(col, 1)
     print(board)
     return res
