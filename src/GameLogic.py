@@ -63,7 +63,10 @@ if __name__ == "__main__":
 
     
     while (endGame == 2):
-        if playing == 0:
+        if (board.isTie()):
+                print("The human and the machine are equally strong.")
+                endGame = 2
+        elif playing == 0:
             print("AI is playing....")
             endGame = playAI(board)
             playing = 1

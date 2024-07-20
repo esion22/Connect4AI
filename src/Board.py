@@ -22,6 +22,16 @@ class Board():
         string += "\n"
         return string
     
+    def isTie (self) -> bool:
+        isTie: bool = True
+        for i in range(7):
+            if (self.grid[i] == Disk.EMPTY):
+                isTie = False
+                break
+        
+        return isTie
+
+
     def play (self, col: int, which: int) -> int:
         if (self.grid[col] != Disk.EMPTY):
             print("Unable to play here!")
