@@ -133,7 +133,7 @@ float evaluation (int* state, int* prev_state, int depth) {
                             if (value == RED) {
                                 if (state[(i-3)*7 + j] == EMPTY) {
                                     human_three_streaks++;
-                                } else if (state[(i-3)*7 + j]==YELLOW/* && prev_state[(i-3)*7 + j]==EMPTY*/) {
+                                } else if (state[(i-3)*7 + j]==YELLOW && prev_state[(i-3)*7 + j]==EMPTY) {
                                     //AI blocks human streak
                                     AI_block_streak++;
                                 }
@@ -165,7 +165,7 @@ float evaluation (int* state, int* prev_state, int depth) {
                             if (value == RED) {
                                 if (state[i*7 + j + 3] == EMPTY) {
                                     human_three_streaks++;
-                                } else if (state[i*7 + j + 3]==YELLOW/* && prev_state[i*7 + j + 3] == EMPTY*/) {
+                                } else if (state[i*7 + j + 3]==YELLOW && prev_state[i*7 + j + 3] == EMPTY) {
                                     //AI blocks human streak
                                     AI_block_streak++;
                                 }
@@ -188,7 +188,7 @@ float evaluation (int* state, int* prev_state, int depth) {
                         if (value == RED) {
                             if (state[i*7 + j + 2] == EMPTY) {
                                 human_three_streaks++;
-                            } else if (state[i*7 + j + 2]==YELLOW/* && prev_state[i*7 + j + 2]==EMPTY*/) {
+                            } else if (state[i*7 + j + 2]==YELLOW && prev_state[i*7 + j + 2]==EMPTY) {
                                 //AI blocks human streak
                                 AI_block_streak++;
                             }
@@ -200,7 +200,7 @@ float evaluation (int* state, int* prev_state, int depth) {
                         if (value == RED) {
                             if (state[i*7 + j + 1] == EMPTY) {
                                 human_three_streaks++;
-                            } else if (state[i*7 + j + 1]==YELLOW/* && prev_state[i*7 + j + 1]==EMPTY*/) {
+                            } else if (state[i*7 + j + 1]==YELLOW && prev_state[i*7 + j + 1]==EMPTY) {
                                 //AI blocks human streak
                                 AI_block_streak++;
                             }
@@ -221,7 +221,7 @@ float evaluation (int* state, int* prev_state, int depth) {
                             if (value == RED) {
                                 if (state[(i-3)*7 + j + 3] == EMPTY) {
                                     human_three_streaks++;
-                                } else if (state[(i-3)*7 + j + 3]==YELLOW/* && prev_state[(i-3)*7 + j + 3]==EMPTY*/) {
+                                } else if (state[(i-3)*7 + j + 3]==YELLOW && prev_state[(i-3)*7 + j + 3]==EMPTY) {
                                     //AI blocks human streak
                                     AI_block_streak++;
                                 }
@@ -243,7 +243,7 @@ float evaluation (int* state, int* prev_state, int depth) {
                         if (value == RED) {
                             if (state[(i-2)*7 + j + 2] == EMPTY) {
                                 human_three_streaks++;
-                            } else if (state[(i-2)*7 + j + 2]==YELLOW/* && prev_state[(i-2)*7 + j + 2]==EMPTY*/) {
+                            } else if (state[(i-2)*7 + j + 2]==YELLOW && prev_state[(i-2)*7 + j + 2]==EMPTY) {
                                 //AI blocks human streak
                                 AI_block_streak++;
                             }
@@ -255,7 +255,7 @@ float evaluation (int* state, int* prev_state, int depth) {
                         if (value == RED) {
                             if (state[(i-1)*7 + j + 1] == EMPTY) {
                                 human_three_streaks++;
-                            } else if (state[(i-1)*7 + j + 1]==YELLOW/* && prev_state[(i-1)*7 + j + 1]==EMPTY*/) {
+                            } else if (state[(i-1)*7 + j + 1]==YELLOW && prev_state[(i-1)*7 + j + 1]==EMPTY) {
                                 //AI blocks human streak
                                 AI_block_streak++;
                             }
@@ -276,7 +276,7 @@ float evaluation (int* state, int* prev_state, int depth) {
                             if (value == RED) {
                                 if (state[(i-3)*7 + j - 3] == EMPTY) {
                                     human_three_streaks++;
-                                } else if (state[(i-3)*7 + j - 3]==YELLOW/* && prev_state[(i-3)*7 + j - 3]==EMPTY*/) {
+                                } else if (state[(i-3)*7 + j - 3]==YELLOW && prev_state[(i-3)*7 + j - 3]==EMPTY) {
                                     //AI blocks human streak
                                     AI_block_streak++;
                                 }
@@ -298,7 +298,7 @@ float evaluation (int* state, int* prev_state, int depth) {
                         if (value == RED) {
                             if (state[(i-2)*7 + j - 2] == EMPTY) {
                                 human_three_streaks++;
-                            } else if (state[(i-2)*7 + j - 2]==YELLOW/* && prev_state[(i-2)*7 + j -2]==EMPTY*/) {
+                            } else if (state[(i-2)*7 + j - 2]==YELLOW && prev_state[(i-2)*7 + j -2]==EMPTY) {
                                 //AI blocks human streak
                                 AI_block_streak++;
                             }
@@ -310,7 +310,7 @@ float evaluation (int* state, int* prev_state, int depth) {
                         if (value == RED) {
                             if (state[(i-1)*7 + j - 1] == EMPTY) {
                                 human_three_streaks++;
-                            } else if (state[(i-1)*7 + j - 1]==YELLOW/* && prev_state[(i-1) + j - 1]==EMPTY*/) {
+                            } else if (state[(i-1)*7 + j - 1]==YELLOW && prev_state[(i-1) + j - 1]==EMPTY) {
                                 //AI blocks human streak
                                 AI_block_streak++;
                             }
@@ -324,7 +324,7 @@ float evaluation (int* state, int* prev_state, int depth) {
     }
     float evaluation;
 
-    evaluation = wins*10 - losses*20 + AI_three_streaks*3 - human_three_streaks*3 - human_two_streaks*2 + AI_block_streak*3;
+    evaluation = wins*20 - losses*100 + AI_three_streaks*3 - human_three_streaks*6 - human_two_streaks*6 + AI_block_streak*30;
     return evaluation;
 }
 
@@ -546,7 +546,11 @@ float alpha_beta_pruning (struct minMaxNode** node, int depth, int alpha, int be
     }
 
     if (depth == 0 || is_win((*node)->state) != 0 || isTie == 1) {
-        (*node)->evaluation = evaluation((*node)->state, (*node)->parent->state, (*node)->depth);
+        if (maximizing_player == 1) {
+            (*node)->evaluation = evaluation((*node)->state, (*node)->parent->state, (*node)->depth);
+        } else if (maximizing_player == 0) {
+            (*node)->evaluation = evaluation((*node)->state, (*node)->parent->state, (*node)->depth);
+        }
         return (*node)->evaluation;
     }
 
@@ -643,8 +647,8 @@ int getPlay (int* state) {
     for (i = 0; i<7; i++) {
         if (root->children[i]!=NULL) {
             if (root->children[i]->evaluation == best_value) {
-                printf("delivering %d\n", i);
-                printf("explored %d nodes\n", total);
+                //printf("delivering %d\n", i);
+                //printf("explored %d nodes\n", total);
                 destroyTree(&root);
                 return i;
             }
