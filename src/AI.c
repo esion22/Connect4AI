@@ -103,7 +103,117 @@ int* result (int* state, int col, int which) {
     return p;
 }
 
+int is_win (int* state) {
+    enum Disk value = EMPTY;
+    int i = 0;
+    int j = 0;
+
+    //checking if someone is winning
+    //return -1 if the human wins, 1 if the AI wins, 0 if noone wins
+    for (i = 0; i<6; i++) {
+        //only check up, right, up.right, up-left
+        for (j = 0; j<7; j++) {
+            value = state[i*7 + j];
+            if (value != EMPTY) {
+                if (i>=3) {
+                    //check up
+                    if (state[(i-1)*7 + j] == value && state[(i-2)*7 + j] == value) {
+                        //checking for 3 disk streaks
+                        if (state[(i-3)*7 + j] == value) {
+                            if (value == RED) {
+                                //human wins
+                                return -1;
+                            } else if (value == YELLOW) {
+                                //AI wins
+                                return 1;
+                            }
+                        }
+                        
+                    } 
+                }
+                
+
+                if (j<=3) {
+                    //check right
+                    if (state[i*7 + j + 1] == value && state[i*7 + j + 2] == value) {
+                        if (state[i*7 + j + 3] == value) {
+                            if (value == RED) {
+                                //human wins
+                                return 1;
+                            } else if (value == YELLOW) {
+                                //AI wins
+                                return -1;
+                            }
+                        }
+                    }
+                }
+
+
+                if (i>=3 && j<=3) {
+                    //check up-right
+                    if (state[(i-1)*7 + j + 1] == value && state[(i-2)*7 + j + 2] == value) {
+                        if (state[(i-3)*7 + j + 3] == value) {
+                            if (value == RED) {
+                                //human wins
+                                return -1;
+                            } else if (value == YELLOW) {
+                                //AI wins
+                                return 1;
+                            }
+                        }
+                    }
+                }
+
+
+                if (i>=3 && j>=3) {
+                    //check up-left
+                    if (state[(i-1)*7 + j - 1] == value && state[(i-2)*7 + j - 2] == value) {
+                        if (state[(i-3)*7 + j - 3] == value) {
+                            if (value == RED) {
+                                //human wins
+                                return -1;
+                            } else if (value == YELLOW) {
+                                //AI wins
+                                return 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return 0;
+}
+
+
 float evaluation (int* state, int* prev_state, int depth) {
+    /*int eva[42] = {3, 4, 5, 7, 5, 4, 3,
+                    4, 6, 8, 10, 8, 6, 4,
+                    5, 8, 11, 13, 11, 8, 5,
+                    5, 8, 11, 13, 11, 8, 5,
+                    4, 6, 8, 10, 8, 6, 4,
+                    3, 4, 5, 7, 5, 4, 3};
+    
+    int i = 0;
+
+    while (state[i] == prev_state[i] && i<42) {
+        i++;
+    }
+
+    if (i>=42) {
+        
+        return 0;
+    }
+    if (is_win(state) == 1) {
+        return INT_MAX;
+    }
+    if (is_win(state) == -1) {
+        return INT_MIN;
+    }
+
+    return eva[i];*/
+
     enum Disk value = EMPTY;
     int i = 0;
     int j = 0;
@@ -326,90 +436,6 @@ float evaluation (int* state, int* prev_state, int depth) {
 
     evaluation = wins*20 - losses*100 + AI_three_streaks*3 - human_three_streaks*6 - human_two_streaks*6 + AI_block_streak*30;
     return evaluation;
-}
-
-
-int is_win (int* state) {
-    enum Disk value = EMPTY;
-    int i = 0;
-    int j = 0;
-
-    //checking if someone is winning
-    //return -1 if the human wins, 1 if the AI wins, 0 if noone wins
-    for (i = 0; i<6; i++) {
-        //only check up, right, up.right, up-left
-        for (j = 0; j<7; j++) {
-            value = state[i*7 + j];
-            if (value != EMPTY) {
-                if (i>=3) {
-                    //check up
-                    if (state[(i-1)*7 + j] == value && state[(i-2)*7 + j] == value) {
-                        //checking for 3 disk streaks
-                        if (state[(i-3)*7 + j] == value) {
-                            if (value == RED) {
-                                //human wins
-                                return -1;
-                            } else if (value == YELLOW) {
-                                //AI wins
-                                return 1;
-                            }
-                        }
-                        
-                    } 
-                }
-                
-
-                if (j<=3) {
-                    //check right
-                    if (state[i*7 + j + 1] == value && state[i*7 + j + 2] == value) {
-                        if (state[i*7 + j + 3] == value) {
-                            if (value == RED) {
-                                //human wins
-                                return 1;
-                            } else if (value == YELLOW) {
-                                //AI wins
-                                return -1;
-                            }
-                        }
-                    }
-                }
-
-
-                if (i>=3 && j<=3) {
-                    //check up-right
-                    if (state[(i-1)*7 + j + 1] == value && state[(i-2)*7 + j + 2] == value) {
-                        if (state[(i-3)*7 + j + 3] == value) {
-                            if (value == RED) {
-                                //human wins
-                                return -1;
-                            } else if (value == YELLOW) {
-                                //AI wins
-                                return 1;
-                            }
-                        }
-                    }
-                }
-
-
-                if (i>=3 && j>=3) {
-                    //check up-left
-                    if (state[(i-1)*7 + j - 1] == value && state[(i-2)*7 + j - 2] == value) {
-                        if (state[(i-3)*7 + j - 3] == value) {
-                            if (value == RED) {
-                                //human wins
-                                return -1;
-                            } else if (value == YELLOW) {
-                                //AI wins
-                                return 1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return 0;
 }
 
 void destroyTree(struct minMaxNode** root) {
