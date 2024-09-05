@@ -187,7 +187,7 @@ int is_win (int* state) {
 }
 
 
-float evaluation (int* state, int* prev_state, int depth) {
+float evaluation (int* state, int* prev_state, int depth, int which) {
     /*int eva[42] = {3, 4, 5, 7, 5, 4, 3,
                     4, 6, 8, 10, 8, 6, 4,
                     5, 8, 11, 13, 11, 8, 5,
@@ -223,6 +223,7 @@ float evaluation (int* state, int* prev_state, int depth) {
     int human_three_streaks = 0;
     int AI_block_streak = 0;
     int human_two_streaks = 0;
+    int AI_two_streaks = 0;
 
     //checking if someone is winning
     //return -1 if the human wins, 1 if the AI wins, 0 if noone wins
@@ -237,6 +238,8 @@ float evaluation (int* state, int* prev_state, int depth) {
                         if (state[(i-2)*7 + j] == EMPTY && state[(i-3)*7 + j] == EMPTY) {
                             if (value == RED) {
                                 human_two_streaks++;
+                            } else if (value == YELLOW) {
+                                AI_two_streaks++;
                             }
                         } else if (state[(i-2)*7 + j] == value) {
                             //checking for 3 disk streaks
@@ -269,7 +272,11 @@ float evaluation (int* state, int* prev_state, int depth) {
                     //check right
                     if (state[i*7 + j + 1] == value) {
                         if (state[i*7 + j + 2] == EMPTY && state[i*7 + j + 3] == EMPTY) {
-                            human_two_streaks++;
+                            if (value == RED) {
+                                human_two_streaks++;
+                            } else if (value == YELLOW) {
+                                AI_two_streaks++;
+                            }
                         } else if (state[i*7 + j + 2] == value) {
                             //checking for 3 disk streaks
                             if (value == RED) {
@@ -325,7 +332,11 @@ float evaluation (int* state, int* prev_state, int depth) {
                     //check up-right
                     if (state[(i-1)*7 + j + 1] == value) {
                         if (state[(i-2)*7 + j + 2] == EMPTY && state[(i-3)*7 + j + 3] == EMPTY) {
-                            human_two_streaks++;
+                            if (value == RED) {
+                                human_two_streaks++;
+                            } else if (value == YELLOW) {
+                                AI_two_streaks++;
+                            }
                         } else if (state[(i-2)*7 + j + 2] == value) {
                             //checking for 3 disk streaks
                             if (value == RED) {
@@ -380,7 +391,11 @@ float evaluation (int* state, int* prev_state, int depth) {
                     //check up-left
                     if (state[(i-1)*7 + j - 1] == value && state[(i-2)*7 + j - 2] == value) {
                         if (state[(i-2)*7 + j - 2] == EMPTY && state[(i-3)*7 + j - 3] == EMPTY) {
-                            human_two_streaks++;
+                            if (value == RED) {
+                                human_two_streaks++;
+                            } else if (value == YELLOW) {
+                                AI_two_streaks++;
+                            }
                         } else if (state[(i-2)*7 + j - 2] == value) {
                             //checking for 3 disk streaks
                             if (value == RED) {
@@ -434,7 +449,9 @@ float evaluation (int* state, int* prev_state, int depth) {
     }
     float evaluation;
 
-    evaluation = wins*20 - losses*100 + AI_three_streaks*3 - human_three_streaks*6 - human_two_streaks*6 + AI_block_streak*30;
+    //evaluation = wins*100 - losses*100 + AI_three_streaks*3 - human_three_streaks*4 - human_two_streaks*3 + AI_two_streaks*2;
+
+    evaluation = wins*50 - losses*100 + AI_three_streaks*3 + AI_two_streaks*2 - human_three_streaks*6 - human_two_streaks*4 + AI_block_streak*30;
     return evaluation;
 }
 
@@ -492,7 +509,7 @@ float minmax (struct minMaxNode** node, int depth, int maximizing_player, int* t
     }
 
     if (depth == 0 || is_win((*node)->state) != 0 || isTie == 1) {
-        (*node)->evaluation = evaluation((*node)->state, (*node)->parent->state, (*node)->depth);
+        (*node)->evaluation = evaluation((*node)->state, (*node)->parent->state, (*node)->depth, maximizing_player);
         return (*node)->evaluation;
     }
 
@@ -573,9 +590,9 @@ float alpha_beta_pruning (struct minMaxNode** node, int depth, int alpha, int be
 
     if (depth == 0 || is_win((*node)->state) != 0 || isTie == 1) {
         if (maximizing_player == 1) {
-            (*node)->evaluation = evaluation((*node)->state, (*node)->parent->state, (*node)->depth);
+            (*node)->evaluation = evaluation((*node)->state, (*node)->parent->state, (*node)->depth, maximizing_player);
         } else if (maximizing_player == 0) {
-            (*node)->evaluation = evaluation((*node)->state, (*node)->parent->state, (*node)->depth);
+            (*node)->evaluation = evaluation((*node)->state, (*node)->parent->state, (*node)->depth, maximizing_player);
         }
         return (*node)->evaluation;
     }
@@ -661,7 +678,7 @@ int getPlay (int* state) {
     root->MaxOrMin = 1; //max
     root->parent = NULL;
     root->state = state;
-    root->evaluation = evaluation(root->state, root->state, 0);
+    root->evaluation = evaluation(root->state, root->state, 0, 1);
     
     for (i = 0; i<7; i++) {
         root->children[i] = NULL;

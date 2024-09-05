@@ -49,7 +49,7 @@ class Board():
             gui.buttons.__getitem__(i * 7 + col).configure(background="red", state=tkinter.DISABLED)
             self.grid[i*7 + col] = Disk.RED
         else:
-            gui.buttons.__getitem__(i*7 + col).configure(background = "yellow", state=tkinter.DISABLED)
+            gui.buttons.__getitem__(i*7 + col).configure(background="yellow", state=tkinter.DISABLED)
             self.grid[i*7 + col] = Disk.YELLOW
         
         winner: int = self.isWinner(gui)
@@ -58,8 +58,16 @@ class Board():
         
 
     def isWinner(self, gui: GUI) -> int:
-        # the result is 0 if the human wins, 1 if the AI wins, 2 if nobody wins
+        # the result is 0 if the human wins, 1 if the AI wins, 2 if nobody wins, 3 if is tie
         value: Disk = None
+        tie = True
+        for i in range(7):
+            if (self.grid[i] == Disk.EMPTY):
+                tie = False
+                break
+        if (tie):
+            return 3
+
         for i in range(6):
             # only check up, right, up-right, up-left
             for j in range(7):
