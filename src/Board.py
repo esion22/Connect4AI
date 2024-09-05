@@ -1,5 +1,6 @@
+import tkinter
 from Disks import *
-import ctypes
+import GUI
 
 # human is Red (0) AI is Yellow (1)
 
@@ -32,7 +33,7 @@ class Board():
         return isTie
 
 
-    def play (self, col: int, which: int) -> int:
+    def play (self, col: int, which: int, gui: GUI) -> int:
         if (self.grid[col] != Disk.EMPTY):
             print("Unable to play here!")
             return 3
@@ -45,22 +46,18 @@ class Board():
             i -= 1
         
         if (which == 0):
+            gui.buttons.__getitem__(i * 7 + col).configure(background="red", state=tkinter.DISABLED)
             self.grid[i*7 + col] = Disk.RED
         else:
+            gui.buttons.__getitem__(i*7 + col).configure(background = "yellow", state=tkinter.DISABLED)
             self.grid[i*7 + col] = Disk.YELLOW
         
-        winner: int = self.isWinner()
-        if (winner == 0):
-            print(self)
-            print("The human rules over the machine")
-        elif (winner == 1):
-            print(self)
-            print("The Machine has overcome humans...")
+        winner: int = self.isWinner(gui)
         return winner
 
         
 
-    def isWinner(self) -> int:
+    def isWinner(self, gui: GUI) -> int:
         # the result is 0 if the human wins, 1 if the AI wins, 2 if nobody wins
         value: Disk = None
         for i in range(6):
@@ -72,12 +69,20 @@ class Board():
                         #check up
                         if (self.grid[(i-1)*7 + j] == value and self.grid[(i-2)*7 + j] == value and self.grid[(i-3)*7 + j] == value):
                             if value == Disk.RED:
+                                gui.buttons.__getitem__(i * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__((i-1) * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__((i-2) * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__((i-3) * 7 + j).configure(background="green")
                                 self.grid[i*7 + j] = Disk.WINRED
                                 self.grid[(i-1)*7 + j] = Disk.WINRED
                                 self.grid[(i-2)*7 + j] = Disk.WINRED
                                 self.grid[(i-3)*7 + j] = Disk.WINRED
                                 return 0
                             elif value == Disk.YELLOW:
+                                gui.buttons.__getitem__(i * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__((i - 1) * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__((i - 2) * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__((i - 3) * 7 + j).configure(background="green")
                                 self.grid[i*7 + j] = Disk.WINYELLOW
                                 self.grid[(i-1)*7 + j] = Disk.WINYELLOW
                                 self.grid[(i-2)*7 + j] = Disk.WINYELLOW
@@ -87,12 +92,20 @@ class Board():
                         #check right
                         if (self.grid[i*7 + j + 1] == value and self.grid[i*7 + j + 2] == value and self.grid[i*7 + j + 3] == value):
                             if value == Disk.RED:
+                                gui.buttons.__getitem__(i * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__(i * 7 + j + 1).configure(background="green")
+                                gui.buttons.__getitem__(i * 7 + j + 2).configure(background="green")
+                                gui.buttons.__getitem__(i * 7 + j + 3).configure(background="green")
                                 self.grid[i*7 + j] = Disk.WINRED
                                 self.grid[i*7 + j + 1] = Disk.WINRED
                                 self.grid[i*7 + j + 2] = Disk.WINRED
                                 self.grid[i*7 + j + 3] = Disk.WINRED
                                 return 0
                             elif value == Disk.YELLOW:
+                                gui.buttons.__getitem__(i * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__(i * 7 + j + 1).configure(background="green")
+                                gui.buttons.__getitem__(i * 7 + j + 2).configure(background="green")
+                                gui.buttons.__getitem__(i * 7 + j + 3).configure(background="green")
                                 self.grid[i*7 + j] = Disk.WINYELLOW
                                 self.grid[i*7 + j + 1] = Disk.WINYELLOW
                                 self.grid[i*7 + j + 2] = Disk.WINYELLOW
@@ -102,12 +115,20 @@ class Board():
                         #check up-right
                         if (self.grid[(i-1)*7 + j + 1] == value and self.grid[(i-2)*7 + j + 2] == value and self.grid[(i-3)*7 + j + 3] == value):
                             if value == Disk.RED:
+                                gui.buttons.__getitem__(i * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__((i - 1) * 7 + j + 1).configure(background="green")
+                                gui.buttons.__getitem__((i - 2) * 7 + j + 2).configure(background="green")
+                                gui.buttons.__getitem__((i - 3) * 7 + j + 3).configure(background="green")
                                 self.grid[i*7 + j] = Disk.WINRED
                                 self.grid[(i-1)*7 + j + 1] = Disk.WINRED
                                 self.grid[(i-2)*7 + j + 2] = Disk.WINRED
                                 self.grid[(i-3)*7 + j + 3] = Disk.WINRED
                                 return 0
                             elif value == Disk.YELLOW:
+                                gui.buttons.__getitem__(i * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__((i - 1) * 7 + j + 1).configure(background="green")
+                                gui.buttons.__getitem__((i - 2) * 7 + j + 2).configure(background="green")
+                                gui.buttons.__getitem__((i - 3) * 7 + j + 3).configure(background="green")
                                 self.grid[i*7 + j] = Disk.WINYELLOW
                                 self.grid[(i-1)*7 + j + 1] = Disk.WINYELLOW
                                 self.grid[(i-2)*7 + j + 2] = Disk.WINYELLOW
@@ -117,12 +138,20 @@ class Board():
                         #check up-left
                         if (self.grid[(i-1)*7 + j - 1] == value and self.grid[(i-2)*7 + j - 2] == value and self.grid[(i-3)*7 + j - 3] == value):
                             if value == Disk.RED:
+                                gui.buttons.__getitem__(i * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__((i - 1) * 7 + j - 1).configure(background="green")
+                                gui.buttons.__getitem__((i - 2) * 7 + j - 2).configure(background="green")
+                                gui.buttons.__getitem__((i - 3) * 7 + j - 3).configure(background="green")
                                 self.grid[i*7 + j] = Disk.WINRED
                                 self.grid[(i-1)*7 + j - 1] = Disk.WINRED
                                 self.grid[(i-2)*7 + j - 2] = Disk.WINRED
                                 self.grid[(i-3)*7 + j - 3] = Disk.WINRED
                                 return 0
                             elif value == Disk.YELLOW:
+                                gui.buttons.__getitem__(i * 7 + j).configure(background="green")
+                                gui.buttons.__getitem__((i - 1) * 7 + j - 1).configure(background="green")
+                                gui.buttons.__getitem__((i - 2) * 7 + j - 2).configure(background="green")
+                                gui.buttons.__getitem__((i - 3) * 7 + j - 3).configure(background="green")
                                 self.grid[i*7 + j] = Disk.WINYELLOW
                                 self.grid[(i-1)*7 + j - 1] = Disk.WINYELLOW
                                 self.grid[(i-2)*7 + j - 2] = Disk.WINYELLOW

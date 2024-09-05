@@ -1,4 +1,4 @@
-from enum import Enum, auto
+from enum import Enum
 
 class Disk(Enum):
     YELLOW = 1
