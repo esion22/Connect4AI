@@ -1,3 +1,5 @@
 .git
 
 src/__pycache__
+
+.vscode
